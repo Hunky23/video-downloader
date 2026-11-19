@@ -1,0 +1,14 @@
+{
+  "name": "video-downloader-extension",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "node builder.js prod",
+    "dev": "node builder.js dev",
+    "watch": "node builder.js dev --watch"
+  },
+  "devDependencies": {
+    "chokidar": "^6.0.0",
+    "esbuild": "^0.28.2",
+    "sass": "^1.108.2"
+  }
+}

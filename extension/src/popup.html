@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body>
+    <div class="header">
+      <h1 class="header__title">Видео загрузчик</h1>
+
+      <a class="header__settings">
+        <div class="header__settings-icon setting-open-trigger"></div>
+      </a>
+    </div>
+
+    <div class="settings">
+      <div class="settings__top settings-top">
+        <span class="settings-top__title">Настройки</span>
+
+        <a class="settings-top__close setting-close-trigger">
+          <div class="settings-top__close-icon"></div>
+        </a>
+      </div>
+
+      <form class="settings__form settings-form">
+        <span class="settings-form__title">Опции после завершения скачки</span>
+
+        <label class="settings-form__label">
+          <input name="converting-video" type="checkbox">
+          Переконвертировать видео после загрузки
+        </label>
+      </form>
+    </div>
+
+    <div class="main-content"></div>
+
+    <script type="module" src="js/popup.js"></script>
+  </body>
+</html>

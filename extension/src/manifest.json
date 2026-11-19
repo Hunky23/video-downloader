@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Video Downloader",
+  "version": "0.1.0",
+  "background": {
+    "service_worker": "js/background.js",
+    "scripts": ["js/background.js"],
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Video Downloader",
+    "default_popup": "popup.html"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "video_downloader@hunky"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/content.js"
+      ],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    }
+  ],
+  "permissions": [
+    "webNavigation",
+    "webRequest",
+    "storage",
+    "tabs",
+    "cookies",
+    "nativeMessaging",
+    "<all_urls>"
+  ]
+}

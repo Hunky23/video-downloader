@@ -1,0 +1,38 @@
+version: '3'
+
+# Каталог, куда падают готовые бинарники (portable-раскладка).
+# Вперёд-наклонные слэши — go build и go-task одинаково понимают их на Windows.
+vars:
+  OUT_DIR: "D:/portable-programs/CLI/video-downloader"
+  # -s -w: убрать debug-информацию и DWARF, бинарник меньше.
+  # -X main.version=...: добавить сюда версию, когда появится var version в main.
+  LDFLAGS: "-s -w"
+
+tasks:
+  # `task` (без аргументов) — собрать всё.
+  default:
+    desc: "Собрать все бинарники (bridge + daemon)"
+    deps: [stop, bridge, daemon]
+
+  stop:
+    desc: "Остановить bridge.exe и daemon.exe, если запущены"
+    cmds:
+      - powershell.exe -NoProfile -Command "Stop-Process -Name bridge -Force -ErrorAction SilentlyContinue; Stop-Process -Name daemon -Force -ErrorAction SilentlyContinue; exit 0"
+
+  bridge:
+    desc: "Собрать bridge -> {{.OUT_DIR}}/bridge.exe"
+    dirs: [{{.OUT_DIR}}] # кроссплатформенно создаст папку, если её нет
+    cmds:
+      - go build -ldflags "{{.LDFLAGS}}" -o {{.OUT_DIR}}/bridge.exe ./cmd/bridge
+
+  daemon:
+    desc: "Собрать daemon -> {{.OUT_DIR}}/daemon.exe"
+    dirs: [{{.OUT_DIR}}]
+    cmds:
+      - go build -ldflags "{{.LDFLAGS}}" -o {{.OUT_DIR}}/daemon.exe ./cmd/daemon
+
+  clean:
+    desc: "Удалить собранные бинарники"
+    cmds:
+      # Windows-специфично (портативная раскладка на Windows), но надёжно через powershell.
+      - powershell.exe -NoProfile -Command "Remove-Item -LiteralPath '{{.OUT_DIR}}/bridge.exe','{{.OUT_DIR}}/daemon.exe' -Force -ErrorAction SilentlyContinue"
